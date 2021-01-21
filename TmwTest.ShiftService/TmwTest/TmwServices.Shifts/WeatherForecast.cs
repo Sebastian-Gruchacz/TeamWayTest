@@ -1,7 +1,10 @@
 using System;
 
-namespace TmwServices.Shifts
+namespace TmwServices.ShiftsService
 {
+    /// <summary>
+    /// Weather forecast info
+    /// </summary>
     public class WeatherForecast
     {
         public DateTime Date { get; set; }

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TmwServices.ShiftsService</name>
+    </assembly>
+    <members>
+        <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.Get">
+            <summary>
+            List Shifts available to the User
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:TmwServices.ShiftsService.WeatherForecast">
+            <summary>
+            Weather forecast info
+            </summary>
+        </member>
+    </members>
+</doc>

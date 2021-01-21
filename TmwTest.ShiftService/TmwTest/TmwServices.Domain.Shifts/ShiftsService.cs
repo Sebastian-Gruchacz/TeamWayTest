@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TmwServices.Core;
+using TmwServices.Domain.Shifts.Model;
 
 namespace TmwServices.Domain.Shifts
 {
@@ -24,10 +25,6 @@ namespace TmwServices.Domain.Shifts
     }
 
     public class ShiftRulesConfiguration
-    {
-    }
-
-    public class Shift
     {
     }
 

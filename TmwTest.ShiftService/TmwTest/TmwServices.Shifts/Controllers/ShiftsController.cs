@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TmwServices.Domain.Shifts;
-using TmwServices.Shifts;
 
 namespace TmwServices.ShiftsService.Controllers
 {
@@ -26,6 +25,10 @@ namespace TmwServices.ShiftsService.Controllers
             _shiftsService = shiftsService ?? throw new ArgumentNullException(nameof(shiftsService));
         }
 
+        /// <summary>
+        /// List Shifts available to the User
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
