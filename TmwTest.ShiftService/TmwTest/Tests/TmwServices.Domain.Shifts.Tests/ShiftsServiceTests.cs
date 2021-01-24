@@ -38,6 +38,7 @@ namespace TmwServices.Domain.Shifts.Tests
             };
             _defaultConfig = Options.Create(rules);
 
+            // important - need new, empty repository for each test!
             _repositoryLoggerMock = new Mock<ILogger<InMemoryShiftsRepository>>();
             _serviceLoggerMock = new Mock<ILogger<ShiftsService>>();
 

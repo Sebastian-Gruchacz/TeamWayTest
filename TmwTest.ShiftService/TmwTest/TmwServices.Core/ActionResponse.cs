@@ -12,7 +12,12 @@
         private readonly HttpStatusCode _status;
         private readonly string _errorMessage;
 
-        protected ActionResponse(HttpStatusCode status)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionResponse"/> class for SUCCESS result.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <exception cref="System.ArgumentException">Cannot specify non-success Status with constructor without [{nameof(ErrorMessage)}] - status</exception>
+        public ActionResponse(HttpStatusCode status)
         {
             _status = status;
 
@@ -24,7 +29,13 @@
             _errorMessage = null;
         }
 
-        protected ActionResponse(HttpStatusCode status, string errorMessage)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ActionResponse"/> class for FAILED result.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <exception cref="System.ArgumentException">Cannot provide [{nameof(errorMessage)}] when status is \"{HttpStatusCode.OK}\". - errorMessage</exception>
+        public ActionResponse(HttpStatusCode status, string errorMessage)
         {
             _status = status;
 
