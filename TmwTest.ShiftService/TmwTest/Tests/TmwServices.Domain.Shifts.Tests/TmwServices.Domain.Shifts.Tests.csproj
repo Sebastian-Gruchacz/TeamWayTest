@@ -2,10 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Moq" Version="4.16.0" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TmwServices.Core\TmwServices.Core.csproj" />
+    <ProjectReference Include="..\..\TmwServices.Domain.Shifts\TmwServices.Domain.Shifts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,10 +25,6 @@
     <Reference Include="Microsoft.Extensions.Options">
       <HintPath>C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\5.0.0\ref\net5.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TmwServices.Core\TmwServices.Core.csproj" />
   </ItemGroup>
 
 </Project>

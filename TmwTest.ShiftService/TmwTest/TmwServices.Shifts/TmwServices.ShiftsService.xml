@@ -4,15 +4,124 @@
         <name>TmwServices.ShiftsService</name>
     </assembly>
     <members>
-        <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.Get">
+        <member name="T:TmwServices.ShiftsService.Controllers.ShiftsController">
             <summary>
-            List Shifts available to the User
+            Provides <see cref="T:TmwServices.Domain.Shifts.Model.Shift"/> control service
+            </summary>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
+        </member>
+        <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.#ctor(Microsoft.Extensions.Logging.ILogger{TmwServices.ShiftsService.Controllers.ShiftsController},TmwServices.Domain.Shifts.IShiftsService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TmwServices.ShiftsService.Controllers.ShiftsController"/> class.
+            </summary>
+            <param name="logger">The logger.</param>
+            <param name="shiftsService">The shifts service.</param>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.GetAllUserShifts(System.Guid)">
+            <summary>
+            List all Shifts available to the User
             </summary>
             <returns></returns>
         </member>
-        <member name="T:TmwServices.ShiftsService.WeatherForecast">
+        <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.BookShift(TmwServices.ShiftsService.ViewModel.ShiftViewModel)">
             <summary>
-            Weather forecast info
+            Tries to book a shift
+            </summary>
+        </member>
+        <member name="T:TmwServices.ShiftsService.Program">
+            <summary>
+            Service entry class
+            </summary>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Builds the service structure.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="T:TmwServices.ShiftsService.Startup">
+            <summary>
+            Startup configuration of the service
+            </summary>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TmwServices.ShiftsService.Startup"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="P:TmwServices.ShiftsService.Startup.Configuration">
+            <summary>
+            Gets the configuration instance.
+            </summary>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Use this method to add services to the container.
+            </summary>
+            <param name="services">The services.</param>
+            <remarks>This method gets called by the runtime.</remarks>
+        </member>
+        <member name="M:TmwServices.ShiftsService.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app">The application.</param>
+            <param name="env">The env.</param>
+            <remarks>This method gets called by the runtime.</remarks>
+        </member>
+        <member name="T:TmwServices.ShiftsService.ViewModel.ShiftViewModel">
+            <summary>
+            View model for a Worker Shift
+            </summary>
+        </member>
+        <member name="M:TmwServices.ShiftsService.ViewModel.ShiftViewModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TmwServices.ShiftsService.ViewModel.ShiftViewModel"/> class.
+            </summary>
+            <remarks>To be used by serializers mainly</remarks>
+        </member>
+        <member name="M:TmwServices.ShiftsService.ViewModel.ShiftViewModel.#ctor(TmwServices.Domain.Shifts.Model.Shift)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TmwServices.ShiftsService.ViewModel.ShiftViewModel"/> class.
+            </summary>
+            <param name="shift">The shift model.</param>
+        </member>
+        <member name="P:TmwServices.ShiftsService.ViewModel.ShiftViewModel.ShiftId">
+            <summary>
+            Identifier of the Shift
+            </summary>
+        </member>
+        <member name="P:TmwServices.ShiftsService.ViewModel.ShiftViewModel.WorkerId">
+            <summary>
+            External Worker's identifier.
+            </summary>
+        </member>
+        <member name="P:TmwServices.ShiftsService.ViewModel.ShiftViewModel.StartUtc">
+            <summary>
+            Shift start
+            </summary>
+        </member>
+        <member name="P:TmwServices.ShiftsService.ViewModel.ShiftViewModel.EndUtc">
+            <summary>
+            Shift End
+            </summary>
+        </member>
+        <member name="P:TmwServices.ShiftsService.ViewModel.ShiftViewModel.TimeZoneId">
+            <summary>
+            Gets or sets the time zone standard name.
+            </summary>
+            <remarks>The most precise and consistent specification</remarks>
+        </member>
+        <member name="M:TmwServices.ShiftsService.ViewModel.ShiftViewModel.AsDomainClass">
+            <summary>
+            Converts view model to domain class
             </summary>
         </member>
     </members>

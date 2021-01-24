@@ -10,14 +10,12 @@
         /// <summary>
         /// Identifier of the Shift
         /// </summary>
-        /// <remarks>TODO: Perhaps should be GUID as well to better support cross system uniqueness.
-        /// TODO: Optionally could replace GUID's with other types of subsystem-wide unique numbers.</remarks>
-        public int ShiftId { get; set; }
+        public Guid ShiftId { get; set; }
 
         /// <summary>
-        /// External user's identifier.
+        /// External Worker's identifier.
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid WorkerId { get; set; }
 
         /// <summary>
         /// Shift start

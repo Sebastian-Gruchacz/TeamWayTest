@@ -1,4 +1,6 @@
-﻿namespace TmwServices.Core
+﻿using System.Net;
+
+namespace TmwServices.Core
 {
     using System;
 
@@ -6,9 +8,14 @@
     {
         private readonly T _value;
 
-        public ActionResponse(T value) : base(ActionState.Success)
+        public ActionResponse(T value, HttpStatusCode successStatus = HttpStatusCode.OK) : base(successStatus)
         {
             _value = value;
+        }
+
+        public ActionResponse(HttpStatusCode status, string errorMessage) : base(status, errorMessage)
+        {
+            
         }
 
         public T Value
@@ -17,7 +24,7 @@
             {
                 if (!this.IsSuccess)
                 {
-                    throw new InvalidOperationException(@"ActionResponse object is not in the Success state.");
+                    throw new InvalidOperationException(@"ActionResponse object is not in the Success status.");
                 }
 
                 return _value;

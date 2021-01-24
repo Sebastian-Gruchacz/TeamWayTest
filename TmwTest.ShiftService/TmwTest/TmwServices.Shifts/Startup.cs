@@ -1,5 +1,3 @@
-using TmwServices.Domain.Shifts;
-
 namespace TmwServices.ShiftsService
 {
     using Microsoft.AspNetCore.Builder;
@@ -8,17 +6,34 @@ namespace TmwServices.ShiftsService
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
+    
+    using TmwServices.Domain.Shifts;
+    using TmwServices.Domain.Shifts.Configuration;
 
+    /// <summary>
+    /// Startup configuration of the service
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Gets the configuration instance.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">The services.</param>
+        /// <remarks>This method gets called by the runtime.</remarks>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -27,11 +42,19 @@ namespace TmwServices.ShiftsService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TmwServices.Shifts", Version = "v1" });
             });
 
-            // TODO: register custom services here
+            // TODO: register custom services here (or move elsewhere or configure dynamic discovery when more services)
+            services.Configure<ShiftRulesConfiguration>(Configuration.GetSection(ShiftRulesConfiguration.SectionName));
             services.AddScoped<IShiftsService, Domain.Shifts.ShiftsService>();
+            services.AddSingleton<IShiftsRepository, Domain.Shifts.InMemoryShiftsRepository>();
+            // TODO: when DB is implemented - services.AddScoped<IShiftsRepository, Domain.Shifts.SqlShiftsRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">The application.</param>
+        /// <param name="env">The env.</param>
+        /// <remarks>This method gets called by the runtime.</remarks>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["TmwServices.Shifts/TmwServices.Shifts.csproj", "TmwServices.Shifts/"]
-RUN dotnet restore "TmwServices.Shifts/TmwServices.Shifts.csproj"
+COPY ["TmwServices.Shifts/TmwServices.ShiftsService.csproj", "TmwServices.ShiftsService/"]
+RUN dotnet restore "TmwServices.ShiftsService/TmwServices.ShiftsService.csproj"
 COPY . .
-WORKDIR "/src/TmwServices.Shifts"
-RUN dotnet build "TmwServices.Shifts.csproj" -c Release -o /app/build
+WORKDIR "/src/TmwServices.ShiftsService"
+RUN dotnet build "TmwServices.ShiftsService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TmwServices.Shifts.csproj" -c Release -o /app/publish
+RUN dotnet publish "TmwServices.ShiftsService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TmwServices.Shifts.dll"]
+ENTRYPOINT ["dotnet", "TmwServices.ShiftsService.dll"]
