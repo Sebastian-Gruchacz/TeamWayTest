@@ -19,13 +19,13 @@
         </member>
         <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.GetAllUserShifts(System.Guid)">
             <summary>
-            List all Shifts available to the User
+            List all Shifts available to the Worker
             </summary>
             <returns></returns>
         </member>
         <member name="M:TmwServices.ShiftsService.Controllers.ShiftsController.BookShift(TmwServices.ShiftsService.ViewModel.ShiftViewModel)">
             <summary>
-            Tries to book a shift
+            Tries to book a Shift for a Worker
             </summary>
         </member>
         <member name="T:TmwServices.ShiftsService.Program">

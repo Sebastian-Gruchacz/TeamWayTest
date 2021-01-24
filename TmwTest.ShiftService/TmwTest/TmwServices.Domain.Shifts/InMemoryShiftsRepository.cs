@@ -22,12 +22,17 @@ namespace TmwServices.Domain.Shifts
         private readonly ConcurrentDictionary<Guid, List<Shift>> _shiftsDataBase = 
             new ConcurrentDictionary<Guid, List<Shift>>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InMemoryShiftsRepository"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
         public InMemoryShiftsRepository(ILogger<InMemoryShiftsRepository> logger)
         {
             _logger = logger;
         }
 
-        public async Task<Shift[]> GetUserShiftsAsync(Guid workerId, DateTime startDateTime, DateTime endDateTime)
+        /// <inheritdoc />
+        public async Task<Shift[]> GetWorkerShiftsAsync(Guid workerId, DateTime startDateTime, DateTime endDateTime)
         {
             if (workerId == Guid.Empty)
             {
@@ -44,6 +49,7 @@ namespace TmwServices.Domain.Shifts
             return await Task.FromResult(result);
         }
 
+        /// <inheritdoc />
         public async Task<Shift> TryInsertBoundedShiftAsync(Shift shift, DateTime startDateTime, DateTime endDateTime)
         {
             if (shift == null)
@@ -76,9 +82,11 @@ namespace TmwServices.Domain.Shifts
 
         private static async Task<Shift[]> ExtractBoundedShifts(List<Shift> workerShifts, DateTime startDateTime, DateTime endDateTime)
         {
+            // this is the most disputable behaviour... inclusive or not?
+
             return await Task.FromResult(workerShifts.Where(shift =>
-                    (shift.StartUtc >= startDateTime && shift.StartUtc <= endDateTime) ||
-                    (shift.EndUtc >= startDateTime && shift.EndUtc <= endDateTime))
+                    (shift.StartUtc > startDateTime && shift.StartUtc < endDateTime) ||
+                    (shift.EndUtc > startDateTime && shift.EndUtc < endDateTime))
                 .ToArray());
         }
 
@@ -86,6 +94,5 @@ namespace TmwServices.Domain.Shifts
         {
             return _shiftsDataBase.GetOrAdd(workerId, guid => new List<Shift>());
         }
-
     }
 }

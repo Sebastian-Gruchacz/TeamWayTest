@@ -24,7 +24,7 @@
         public int MaxShiftLength { get; set; }
 
         /// <summary>
-        /// Gets or sets minimum number of hours that must pass between the shifts of the user
+        /// Gets or sets minimum number of hours that must pass between the shifts of the Worker
         /// </summary>
         public int MinShiftsGape { get; set; }
 

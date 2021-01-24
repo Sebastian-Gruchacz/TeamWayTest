@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// List all Shifts available to the User
+        /// List all Shifts available to the Worker
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -48,7 +48,7 @@
         }
 
         /// <summary>
-        /// Tries to book a shift
+        /// Tries to book a Shift for a Worker
         /// </summary>
         [HttpPost]
         public async Task<ShiftViewModel> BookShift(ShiftViewModel newShift)
@@ -64,6 +64,6 @@
             return null;
         }
 
-        // TODO: change the api to better return error data with IActionResult? 
+        // TODO: change the api to better return error data with usage of IActionResult? 
     }
 }

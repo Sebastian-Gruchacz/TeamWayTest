@@ -28,7 +28,7 @@
         public DateTime EndUtc { get; set; }
 
         /// <summary>
-        /// Time zone at which user's shift was created and will be (potentially) targeted despite of the server / service time zone
+        /// Time zone at which Worker's shift was created and will be (potentially) targeted despite of the server / service time zone
         /// </summary>
         /// <remarks>Would not be needed in single-site application. Yet usage of micro-services suggests more global / distributed usage.</remarks>
         public TimeZoneInfo TimeZone { get; set; }

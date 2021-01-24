@@ -47,6 +47,11 @@
         public string ErrorMessage => _errorMessage;
 
         /// <summary>
+        /// Gets the status code.
+        /// </summary>
+        public int Code => (int)_status;
+
+        /// <summary>
         /// Gets the success status object.
         /// </summary>
         public static ActionResponse Ok { get; } = new ActionResponse(HttpStatusCode.OK);

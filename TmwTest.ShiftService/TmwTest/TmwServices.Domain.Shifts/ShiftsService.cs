@@ -1,17 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using TmwServices.Core;
-using TmwServices.Domain.Shifts.Configuration;
-using TmwServices.Domain.Shifts.Model;
-
-namespace TmwServices.Domain.Shifts
+﻿namespace TmwServices.Domain.Shifts
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
+    using TmwServices.Core;
+    using TmwServices.Domain.Shifts.Configuration;
+    using TmwServices.Domain.Shifts.Model;
+
     /// <inheritdoc cref="IShiftsService"/>
     public class ShiftsService : IShiftsService
     {
@@ -54,7 +57,7 @@ namespace TmwServices.Domain.Shifts
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.BadRequest, @"Cannot register shift that is already registered."));
             }
 
-            // get existing shifts of user, that might potentially get in conflict
+            // get existing shifts of worker, that might potentially get in conflict
             var bufferedStart = shift.StartUtc.AddHours(_configuration.MinShiftsGape * (-1));
             var bufferedEnd = shift.EndUtc.AddHours(_configuration.MinShiftsGape);
 
@@ -84,7 +87,7 @@ namespace TmwServices.Domain.Shifts
         /// <inheritdoc cref="IShiftsService"/>
         public async Task<Shift[]> GetWorkerShiftsAsync(Guid workerId, DateTime startDateTime, DateTime endDateTime)
         {
-            return await _shiftsRepository.GetUserShiftsAsync(workerId, startDateTime, endDateTime);
+            return await _shiftsRepository.GetWorkerShiftsAsync(workerId, startDateTime, endDateTime);
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace TmwServices.Domain.Shifts
         /// <returns>NULL if shift is correct or error message.</returns>
         private string ValidateShift(Shift shift)
         {
-            int shiftLength = (shift.EndUtc - shift.StartUtc).Hours;
+            double shiftLength = (shift.EndUtc - shift.StartUtc).TotalHours;
             if (shiftLength < _configuration.MinShiftLength)
             {
                 return $"The shift cannot be shorter than {_configuration.MinShiftLength} hours.";
@@ -107,7 +110,7 @@ namespace TmwServices.Domain.Shifts
 
             if (shift.WorkerId == Guid.Empty)
             {
-                return $"The shift must provide user's identifier in the correct format.";
+                return $"The shift must provide Worker's identifier in the correct format.";
             }
 
             var start = TimeZoneInfo.ConvertTimeFromUtc(shift.StartUtc, shift.TimeZone);
