@@ -1,3 +1,5 @@
+using TmwServices.Domain.Shifts.Implementation;
+
 namespace TmwServices.Domain.Shifts.Tests
 {
     using System;
@@ -22,6 +24,7 @@ namespace TmwServices.Domain.Shifts.Tests
         private IShiftsService _shiftService;
         private TimeZoneInfo _workerTimeZone;
         private Guid _workerOneIdentifier;
+        private Mock<IShiftEventsEmitterService> _eventsEmitter;
 
         [SetUp]
         public void Setup()
@@ -40,10 +43,11 @@ namespace TmwServices.Domain.Shifts.Tests
 
             // important - need new, empty repository for each test!
             _repositoryLoggerMock = new Mock<ILogger<InMemoryShiftsRepository>>();
+            _eventsEmitter = new Mock<IShiftEventsEmitterService>();
             _serviceLoggerMock = new Mock<ILogger<ShiftsService>>();
 
             _repository = new InMemoryShiftsRepository(_repositoryLoggerMock.Object);
-            _shiftService = new ShiftsService(_defaultConfig, _repository, _serviceLoggerMock.Object);
+            _shiftService = new ShiftsService(_defaultConfig, _repository, _eventsEmitter.Object, _serviceLoggerMock.Object);
         }
 
         [Test]

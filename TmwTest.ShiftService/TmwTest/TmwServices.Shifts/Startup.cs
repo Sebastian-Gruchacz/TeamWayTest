@@ -1,3 +1,5 @@
+using TmwServices.ShiftsService.HostedServices;
+
 namespace TmwServices.ShiftsService
 {
     using Microsoft.AspNetCore.Builder;
@@ -42,11 +44,8 @@ namespace TmwServices.ShiftsService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TmwServices.Shifts", Version = "v1" });
             });
 
-            // TODO: register custom services here (or move elsewhere or configure dynamic discovery when more services)
-            services.Configure<ShiftRulesConfiguration>(Configuration.GetSection(ShiftRulesConfiguration.SectionName));
-            services.AddScoped<IShiftsService, Domain.Shifts.ShiftsService>();
-            services.AddSingleton<IShiftsRepository, Domain.Shifts.InMemoryShiftsRepository>();
-            // TODO: when DB is implemented - services.AddScoped<IShiftsRepository, Domain.Shifts.SqlShiftsRepository>();
+            // TODO: register custom services here
+            services.RegisterShiftsDomain(Configuration);
         }
 
         /// <summary>

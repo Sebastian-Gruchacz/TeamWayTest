@@ -28,6 +28,27 @@
             Tries to book a Shift for a Worker
             </summary>
         </member>
+        <member name="T:TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor">
+            <summary>
+            Monitors incoming queue for Shift registration request
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.Hosting.IHostedService" />
+        </member>
+        <member name="M:TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor.#ctor(Microsoft.Extensions.Options.IOptions{TmwServices.Domain.Shifts.Configuration.QueuesSubsystemConfiguration},Microsoft.Extensions.Logging.ILogger{TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor},TmwServices.Domain.Shifts.IShiftsService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <param name="logger"></param>
+            <param name="shiftsService"></param>
+            <exception cref="T:System.ArgumentNullException">configuration</exception>
+        </member>
+        <member name="M:TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor.StartAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:TmwServices.ShiftsService.HostedServices.ShiftRegistrationQueueMonitor.StopAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:TmwServices.ShiftsService.Program">
             <summary>
             Service entry class
@@ -44,6 +65,18 @@
             Builds the service structure.
             </summary>
             <param name="args">The arguments.</param>
+        </member>
+        <member name="T:TmwServices.ShiftsService.ShiftsDomainRegistrations">
+            <summary>
+            Provides extension method used to register Shift Domain subsystems
+            </summary>
+        </member>
+        <member name="M:TmwServices.ShiftsService.ShiftsDomainRegistrations.RegisterShiftsDomain(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Registers the shifts domain.
+            </summary>
+            <param name="services">The services.</param>
+            <param name="configuration">The configuration.</param>
         </member>
         <member name="T:TmwServices.ShiftsService.Startup">
             <summary>

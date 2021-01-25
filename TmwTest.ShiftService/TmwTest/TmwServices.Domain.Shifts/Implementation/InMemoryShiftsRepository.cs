@@ -1,4 +1,4 @@
-﻿namespace TmwServices.Domain.Shifts
+﻿namespace TmwServices.Domain.Shifts.Implementation
 {
     using System;
     using System.Collections.Concurrent;
@@ -81,7 +81,7 @@
 
         private static async Task<Shift[]> ExtractBoundedShifts(List<Shift> workerShifts, DateTime startDateTime, DateTime endDateTime)
         {
-            // this is the most disputable behaviour... inclusive or not?
+            // TODO: this is the most disputable behaviour... inclusive or not?
 
             return await Task.FromResult(workerShifts.Where(shift =>
                     (shift.StartUtc > startDateTime && shift.StartUtc < endDateTime) ||

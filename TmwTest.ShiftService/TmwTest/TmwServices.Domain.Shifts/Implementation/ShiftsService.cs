@@ -1,4 +1,4 @@
-﻿namespace TmwServices.Domain.Shifts
+﻿namespace TmwServices.Domain.Shifts.Implementation
 {
     using System;
     using System.Linq;
@@ -15,24 +15,30 @@
     using TmwServices.Domain.Shifts.Configuration;
     using TmwServices.Domain.Shifts.Model;
 
+
     /// <inheritdoc cref="IShiftsService"/>
     public class ShiftsService : IShiftsService
     {
         private readonly ShiftRulesConfiguration _configuration;
         private readonly ILogger<ShiftsService> _logger;
         private readonly IShiftsRepository _shiftsRepository;
+        private readonly IShiftEventsEmitterService _eventsEmitterService;
 
         /// <summary>Initializes a new instance of the <see cref="ShiftsService" /> class.</summary>
         /// <param name="configuration">The shifts rules configuration.</param>
         /// <param name="shiftsRepository">The sifts persisting repository</param>
+        /// <param name="eventsEmitterService"></param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public ShiftsService(IOptions<ShiftRulesConfiguration> configuration, IShiftsRepository shiftsRepository,
+        public ShiftsService(IOptions<ShiftRulesConfiguration> configuration,
+            IShiftsRepository shiftsRepository,
+            IShiftEventsEmitterService eventsEmitterService,
             ILogger<ShiftsService> logger)
         {
             _configuration = configuration?.Value ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _shiftsRepository = shiftsRepository ?? throw new ArgumentNullException(nameof(shiftsRepository));
+            _eventsEmitterService = eventsEmitterService ?? throw new ArgumentNullException(nameof(eventsEmitterService));
         }
 
         /// <inheritdoc cref="IShiftsService"/>
@@ -47,12 +53,14 @@
             if (!string.IsNullOrWhiteSpace(validationResultMessage))
             {
                 _logger.LogTrace("Shift validation rejection: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
+                await _eventsEmitterService.ShiftRejectedAsync(shift);
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.BadRequest, validationResultMessage));
             }
 
             if (shift.ShiftId != Guid.Empty)
             {
                 _logger.LogTrace("Shift duplicate request rejection: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
+                await _eventsEmitterService.ShiftRejectedAsync(shift);
                 //throw new ArgumentException(@"Cannot register shift that is already registered.", nameof(shift));
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.BadRequest, @"Cannot register shift that is already registered."));
             }
@@ -65,16 +73,19 @@
             if (conflictingShifts.Any())
             {
                 _logger.LogTrace("Shift conflict rejection: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
+                await _eventsEmitterService.ShiftConflictedAsync(shift);
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.Conflict, @"Rejected because of conflict with already booked shift(s)."));
             }
 
             var insertedShift = await _shiftsRepository.TryInsertBoundedShiftAsync(shift, bufferedStart, bufferedEnd);
             if (insertedShift != null)
             {
+                await _eventsEmitterService.ShiftRegisteredAsync(insertedShift);
                 return new ActionResponse<Shift>(insertedShift, HttpStatusCode.Created);
             }
 
             _logger.LogTrace("Shift insert conflict: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
+            await _eventsEmitterService.ShiftConflictedAsync(shift);
             return new ActionResponse<Shift>(HttpStatusCode.Conflict, "Insertion conflict");
         }
 

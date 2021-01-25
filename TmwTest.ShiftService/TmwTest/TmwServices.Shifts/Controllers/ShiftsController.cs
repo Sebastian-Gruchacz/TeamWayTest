@@ -1,4 +1,8 @@
-﻿namespace TmwServices.ShiftsService.Controllers
+﻿using System.Net;
+using Newtonsoft.Json.Linq;
+using TmwServices.Core;
+
+namespace TmwServices.ShiftsService.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -51,19 +55,36 @@
         /// Tries to book a Shift for a Worker
         /// </summary>
         [HttpPost]
-        public async Task<ShiftViewModel> BookShift(ShiftViewModel newShift)
+        public async Task<IActionResult> BookShift(ShiftViewModel newShift)
         {
             Shift shift = newShift.AsDomainClass();
 
             var inserted = await _shiftsService.TryRegisterShiftAsync(shift);
             if (inserted.IsSuccess)
             {
-                return await Task.FromResult(new ShiftViewModel(inserted.Value));
+                return new JsonResult(new ShiftViewModel(inserted.Value));
             }
-
-            return null;
+            
+            return ProcessError(inserted);
         }
 
-        // TODO: change the api to better return error data with usage of IActionResult? 
+        private IActionResult ProcessError(ActionResponse result)
+        {
+            switch (result.Code)
+            {
+                case (int) HttpStatusCode.BadRequest:
+                {
+                    return BadRequest(result.ErrorMessage);
+                }
+                case (int)HttpStatusCode.Conflict:
+                {
+                    return Conflict(result.ErrorMessage);
+                }
+                default:
+                {
+                    return Problem(result.ErrorMessage);
+                }
+            }
+        }
     }
 }
