@@ -1,17 +1,15 @@
-﻿using System.Net;
-using Newtonsoft.Json.Linq;
-using TmwServices.Core;
-
-namespace TmwServices.ShiftsService.Controllers
+﻿namespace TmwServices.ShiftsService.Controllers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
+    using TmwServices.Core;
     using TmwServices.Domain.Shifts;
     using TmwServices.Domain.Shifts.Model;
 

@@ -73,7 +73,7 @@
         }
 
         /// <inheritdoc />
-        public async Task ShiftRejectedAsync(Shift shift)
+        public async Task ShiftRejectedAsync(Shift shift, string rejectionReason)
         {
             if (!_enabled)
             {

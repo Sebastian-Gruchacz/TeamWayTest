@@ -29,8 +29,8 @@ namespace TmwServices.ShiftsService
             services.AddTransient<IShiftsService, Domain.Shifts.Implementation.ShiftsService>();
             services.AddSingleton<IShiftsRepository, InMemoryShiftsRepository>();
 
-            // TODO: when DB is implemented - replace with services.AddScoped<IShiftsRepository, Domain.Shifts.SqlShiftsRepository>();
-            
+            // TODO: when DB is implemented - replace with services.AddTransient<IShiftsRepository, Domain.Shifts.SqlShiftsRepository>();
+
             services.AddHostedService<ShiftRegistrationQueueMonitor>();
 
             return services;

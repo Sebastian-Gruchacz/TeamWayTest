@@ -1,5 +1,3 @@
-using TmwServices.ShiftsService.HostedServices;
-
 namespace TmwServices.ShiftsService
 {
     using Microsoft.AspNetCore.Builder;
@@ -8,9 +6,6 @@ namespace TmwServices.ShiftsService
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    
-    using TmwServices.Domain.Shifts;
-    using TmwServices.Domain.Shifts.Configuration;
 
     /// <summary>
     /// Startup configuration of the service

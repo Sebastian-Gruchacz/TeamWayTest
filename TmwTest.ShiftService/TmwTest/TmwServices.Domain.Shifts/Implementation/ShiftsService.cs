@@ -53,14 +53,14 @@
             if (!string.IsNullOrWhiteSpace(validationResultMessage))
             {
                 _logger.LogTrace("Shift validation rejection: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
-                await _eventsEmitterService.ShiftRejectedAsync(shift);
+                await _eventsEmitterService.ShiftRejectedAsync(shift, validationResultMessage);
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.BadRequest, validationResultMessage));
             }
 
             if (shift.ShiftId != Guid.Empty)
             {
                 _logger.LogTrace("Shift duplicate request rejection: {0}.", JObject.FromObject(shift).ToString(Formatting.None));
-                await _eventsEmitterService.ShiftRejectedAsync(shift);
+                await _eventsEmitterService.ShiftRejectedAsync(shift, "Not new entity.");
                 //throw new ArgumentException(@"Cannot register shift that is already registered.", nameof(shift));
                 return await Task.FromResult(new ActionResponse<Shift>(HttpStatusCode.BadRequest, @"Cannot register shift that is already registered."));
             }
